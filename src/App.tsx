@@ -125,7 +125,7 @@ function App() {
                         }}
                         class="flex items-center gap-4"
                     >
-                        <input class="bg-[#202020] h-8 rounded-md outline-none" name="name" />
+                        <input class="bg-[#202020] h-8 px-2 rounded-md outline-none" name="name" />
                         <button
                             class="bg-[#202020] px-4 py-1 h-8 rounded-md cursor-pointer "
                             type="submit"
