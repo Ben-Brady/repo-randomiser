@@ -1,12 +1,7 @@
-import {
-    createEffect,
-    createSignal,
-    For,
-    type Accessor,
-} from "solid-js";
+import { createEffect, createSignal, For, type Accessor } from "solid-js";
 import sample from "lodash/sample";
 
-const roles = ["blind", "deaf", "mute", "ludite"] as const;
+const roles = ["blind", "deaf", "mute", "ludite", "drunk"] as const;
 type Role = (typeof roles)[number];
 const generateRandomRole = (): Role => sample(roles);
 const generateNewRole = (previous: string | undefined): Role =>
@@ -89,7 +84,7 @@ function App() {
     return (
         <div class="size-full flex justify-center items-center">
             <div class="h-fit flex gap-8 justify-around items-center py-16">
-                <div class="h-128 flex flex-col gap-4">
+                <div class="h-140 flex flex-col gap-4">
                     <RoleCard
                         title="Blind"
                         description="Turn your gamma to 12 in graphics settings"
@@ -98,16 +93,17 @@ function App() {
                         title="Deaf"
                         description="Turn your ingame volume to 0% in the settings"
                     />
-                    <RoleCard
-                        title="Mute"
-                        description="Set your mic to push to talk and rebind the key to something you won't press"
-                    />
+                    <RoleCard title="Mute" description="Set your microphone volume to 0%" />
                     <RoleCard
                         title="Ludite"
                         description="Type /cinematic in chat to turn off your HUD"
                     />
+                    <RoleCard
+                        title="Drunk"
+                        description={"Change your controls so:\nForward=S, Back=W, Left=D, Right=A"}
+                    />
                 </div>
-                <div class="h-128 flex flex-col items-stretch gap-2">
+                <div class="h-140 flex flex-col items-stretch gap-2">
                     <div class="flex flex-col gap-2 flex-1">
                         <For each={playerRoles()}>
                             {({ name, role }) => (
@@ -153,7 +149,7 @@ function App() {
 const RoleCard = ({ title, description }: { title: string; description: string }) => (
     <div class="bg-[#202020] w-96 rounded-lg py-3 px-5 flex flex-col justify-center gap-2 flex-1">
         <h2 class="w-full text-2xl font-bold">{title}</h2>
-        <p>{description}</p>
+        <p class="whitespace-pre-line">{description}</p>
     </div>
 );
 export default App;
