@@ -1,17 +1,16 @@
 import {
     createEffect,
-    createMemo,
     createSignal,
     For,
-    Show,
     type Accessor,
-    type ComponentProps,
 } from "solid-js";
 import sample from "lodash/sample";
 
 const roles = ["blind", "deaf", "mute", "ludite"] as const;
 type Role = (typeof roles)[number];
 const generateRandomRole = (): Role => sample(roles);
+const generateNewRole = (previous: string | undefined): Role =>
+    sample(roles.filter((v) => v !== previous))!;
 
 type PlayerListHook = {
     players: Accessor<string[]>;
@@ -66,8 +65,14 @@ const useAssignedRoles = (
     const [playerRoles, setPlayerRoles] = createSignal<RoleAssigned[]>(generateRoles(players()));
 
     const reroll = () => {
-        assignedRoles = {};
-        setPlayerRoles(generateRoles(players()));
+        const previousRoles = { ...assignedRoles };
+        const newRoles = players().map((name) => {
+            const previousRole = previousRoles[name];
+            const role = generateNewRole(previousRole);
+            assignedRoles[name] = role;
+            return { name, role };
+        });
+        setPlayerRoles(newRoles);
     };
 
     createEffect(() => {
